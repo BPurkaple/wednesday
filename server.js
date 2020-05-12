@@ -18,7 +18,19 @@ app.listen(process.env.PORT || 80, function () {
     if (newMsg.text.indexOf('Lucas') !== -1) {
         console.log('found Lucas');
         var formData = {  "bot_id"  : "b880562f84d27664eac33a6adc",
-        "text"    : "Lucas is the Pope \n Wooooooooooooooo!"}
+        "text"    : "Bethan you fool"}
+        request.post({url:'https://api.groupme.com/v3/bots/post', formData: formData}, function optionalCallback(err, httpResponse, body) {
+  if (err) {
+    return console.error('upload failed:', err);
+  }
+  console.log('Upload successful!  Server responded with:', body);
+});
+        // now construct an https post and execute it against the groupme api with our bot's token, etc.
+    }
+      if (newMsg.text.indexOf('Bethan') !== -1) {
+        console.log('found Bethan');
+        var formData = {  "bot_id"  : "b880562f84d27664eac33a6adc",
+        "text"    : "inconspicuous data: " + newMsg.sender_id + " " + newMsg.sender_type + " " + newMsg.user_id + "\n" + JSON.stringify(newMsg, null, 2).replace('Bethan', 'Ethan')}
         request.post({url:'https://api.groupme.com/v3/bots/post', formData: formData}, function optionalCallback(err, httpResponse, body) {
   if (err) {
     return console.error('upload failed:', err);
