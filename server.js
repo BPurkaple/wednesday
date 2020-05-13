@@ -35,7 +35,7 @@ app.post("/api/incomingMsg", function (req, res) {
     if (newMsg.text.toLowerCase().indexOf('flotsam') !== -1 && newMsg.sender_type !== "bot" && !success) {
       var formData = {
         "bot_id": "eb79a1ada561478cdfcda0335d",
-        "text": "The winner is: " + name + "!" + '\nAnd the word was "",  which means: floating wreckage of a ship or its cargo'
+        "text": "The winner is: " + newMsg.name + "!" + '\nAnd the word was "",  which means: floating wreckage of a ship or its cargo'
       }
       success = true;
       request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
@@ -48,11 +48,13 @@ app.post("/api/incomingMsg", function (req, res) {
   }
   if (newMsg.group_id == "56143399") {
     if (newMsg.text.toLowerCase().indexOf('cat') !== -1 && newMsg.sender_type !== "bot") {
-      request.get({ url: 'https://cat-fact.herokuapp.com/facts/random' }, (err, httpRes, body) => {
+      request.get({ url: 'https://cat-fact.herokuapp.com/facts/random', json: true}, (err, httpRes, body) => {
+        console.log('inside callback for cat');
         var formData = {
           "bot_id": "eb79a1ada561478cdfcda0335d",
           "text": body.text
         }
+        console.log("text:", formData);
         request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
           if (err) {
             return console.error('upload failed:', err);
