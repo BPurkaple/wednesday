@@ -11,7 +11,7 @@ app.listen(process.env.PORT || 80, function () {
    //  var port = app.address().port;
     console.log("App now running on some port");
   });
-  var success = false;
+  var success = true;
   app.post("/api/incomingMsg", function(req, res) {
     var newMsg = req.body;
     console.log('request received:', req, newMsg);
@@ -30,7 +30,7 @@ app.listen(process.env.PORT || 80, function () {
     }
   }
   if (newMsg.group_id == "56143399") {
-    if(newMsg.text.toLowercase.indexOf('flotsam') !== -1 && newMsg.sender_type !== "bot" && !success){
+    if(newMsg.text.toLowerCase().indexOf('flotsam') !== -1 && newMsg.sender_type !== "bot" && !success){
       var formData = {"bot_id" : "eb79a1ada561478cdfcda0335d",
        "text"    : "The winner is: " + name + "!" + '\nAnd the word was "flotsam",  which means: floating wreckage of a ship or its cargo'}
        success = true; 
