@@ -48,11 +48,12 @@ app.post("/api/incomingMsg", function (req, res) {
   }
   if (newMsg.group_id == "56143399") {
     if (newMsg.text.toLowerCase().indexOf('cat') !== -1 && newMsg.sender_type !== "bot") {
-      request.get({ url: 'https://cat-fact.herokuapp.com/facts/random', json: true}, (err, httpRes, body) => {
+      request.get({ url: 'https://catfact.ninja/fact', json: true}, (err, httpRes, body) => {
         console.log('inside callback for cat');
+        console.log(body);
         var formData = {
           "bot_id": "eb79a1ada561478cdfcda0335d",
-          "text": body.text
+          "text": body.fact
         }
         console.log("text:", formData);
         request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
