@@ -30,6 +30,20 @@ app.post("/api/incomingMsg", function (req, res) {
       });
       // now construct an https post and execute it against the groupme api with our bot's token, etc.
     }
+    if (newMsg.text.indexOf('Ethan') !== -1 && newMsg.sender_type === 'bot') {
+      console.log('found Ethan');
+      var formData = {
+        "bot_id": "b880562f84d27664eac33a6adc",
+        "text": "Ethan is fool \n Wooooooooooooo!"
+      }
+      request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+          return console.error('upload failed:', err);
+        }
+        console.log('Upload successful!  Server responded with:', body);
+      });
+      // now construct an https post and execute it against the groupme api with our bot's token, etc.
+    }
   }
   if (newMsg.group_id == "56143399") {
     if (newMsg.text.toLowerCase().indexOf('flotsam') !== -1 && newMsg.sender_type !== "bot" && !success) {
