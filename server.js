@@ -1,18 +1,14 @@
-var request = require("request")
+const fetch = require('node-fetch');
 var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser.json());
-function handleError(res, reason, message, code) {
-  console.log("ERROR: " + reason);
-  res.status(code || 500).json({ "error": message });
-}
 app.listen(process.env.PORT || 80, function () {
   //  var port = app.address().port;
   console.log("App now running on some port");
 });
 var success = true;
-app.post("/api/incomingMsg", function (req, res) {
+app.post("/api/incomingMsg", function (req, response) {
   var newMsg = req.body;
   console.log('request received:', req, newMsg);
   if (newMsg.group_id == "59549084") {
@@ -21,12 +17,11 @@ app.post("/api/incomingMsg", function (req, res) {
       var formData = {
         "bot_id": "b880562f84d27664eac33a6adc",
         "text": "Lucas is the Pope \n Wooooooooooooo!"
-      }
-      request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
-        if (err) {
-          return console.error('upload failed:', err);
-        }
-        console.log('Upload successful!  Server responded with:', body);
+      };
+      fetch('https://api.groupme.com/v3/bots/post', { method: 'POST', body: JSON.stringify(formData) })
+      .then(res => {
+        response.status(200).send("Successfully did something: " + JSON.stringify(res, null,2));
+        console.log('Upload successful!  Server responded with:', JSON.stringify(res, null,2));
       });
       // now construct an https post and execute it against the groupme api with our bot's token, etc.
     }
@@ -36,36 +31,33 @@ app.post("/api/incomingMsg", function (req, res) {
       var formData = {
         "bot_id": "eb79a1ada561478cdfcda0335d",
         "text": "The winner is: " + newMsg.name + "!" + '\nAnd the word was "",  which means: floating wreckage of a ship or its cargo'
-      }
+      };
       success = true;
-      request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
-        if (err) {
-          return console.error('upload failed:', err);
-        }
-        console.log('Upload successful!  Server responded with:', body);
+      fetch('https://api.groupme.com/v3/bots/post', { method: 'POST', body: JSON.stringify(formData) })
+      .then(res => {
+        response.status(200).send("Successfully did something: " + JSON.stringify(res, null,2));
+        console.log('Upload successful!  Server responded with:', JSON.stringify(res, null,2));
       });
     }
   }
   if (newMsg.group_id == "56143399") {
     if (newMsg.text.toLowerCase().indexOf('cat') !== -1 && newMsg.sender_type !== "bot") {
-      request.get({ url: 'https://catfact.ninja/fact', json: true}, (err, httpRes, body) => {
+      fetch('https://catfact.ninja/fact')
+      .then(res => res.json()).then(body => {
         console.log('inside callback for cat');
         console.log(body);
         var formData = {
           "bot_id": "eb79a1ada561478cdfcda0335d",
           "text": body.fact
-        }
-        console.log("text:", formData);
-        request.post({ url: 'https://api.groupme.com/v3/bots/post', formData: formData }, function optionalCallback(err, httpResponse, body) {
-          if (err) {
-            return console.error('upload failed:', err);
-          }
-          console.log('Upload successful!  Server responded with:', body);
+        };
+        fetch('https://api.groupme.com/v3/bots/post', { method: 'POST', body: JSON.stringify(formData) })
+        .then(res => {
+          response.status(200).send("Successfully did something: " + JSON.stringify(res, null,2));
+          console.log('Upload successful!  Server responded with:', JSON.stringify(res, null,2));
         });
       });
     }
   }
-  res.status(201).json(newMsg);
 });
 //     app.get("/api/incomingMsg", function(req, res) {
 //         var newMsg = req.body;
