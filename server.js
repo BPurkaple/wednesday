@@ -12,7 +12,7 @@ app.listen(process.env.PORT || 80, function () {
   console.log("App now running on some port");
 });
 var success = true;
-app.post("/api/incomingMsg", function (req, res) {
+app.post("api/incomingMsg", function (req, res) {
   var newMsg = req.body;
   console.log('request received:', req, newMsg);
   if (newMsg.group_id == "59549084") {
