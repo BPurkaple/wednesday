@@ -40,7 +40,7 @@ app.post("/api/incomingMsg", function (req, response) {
       });
     }
   }
-  if (newMsg.group_id == "56143399") {
+  if (newMsg.group_id == "56143399" || newMsg.group_id == "85492636") {
     if (newMsg.text.toLowerCase().indexOf('cat') !== -1 && newMsg.sender_type !== "bot") {
       fetch('https://catfact.ninja/fact')
       .then(res => res.json()).then(body => {
