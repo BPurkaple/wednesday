@@ -1,2 +1,2 @@
 # wednesday
-Bot stuffs
+Bot stuffs and things
